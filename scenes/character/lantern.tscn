@@ -1,0 +1,70 @@
+[gd_scene load_steps=10 format=3 uid="uid://desqgj8g6ig5p"]
+
+[ext_resource type="Texture2D" uid="uid://cn1efh6nq8oi8" path="res://assets/images/lantern.png" id="1_12sbh"]
+[ext_resource type="Texture2D" uid="uid://cxod3vq0we5p7" path="res://assets/images/circle.png" id="2_05f22"]
+[ext_resource type="Shader" path="res://assets/shaders/mask.gdshader" id="2_k8yam"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4iqei"]
+atlas = ExtResource("1_12sbh")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jed4y"]
+atlas = ExtResource("1_12sbh")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_fo3no"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4iqei")
+}],
+"loop": true,
+"name": &"off",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jed4y")
+}],
+"loop": true,
+"name": &"on",
+"speed": 5.0
+}]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_j0toc"]
+shader = ExtResource("2_k8yam")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_yeq0y"]
+shader = ExtResource("2_k8yam")
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ra638"]
+
+[node name="Lantern" type="Node2D"]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+z_index = 1
+sprite_frames = SubResource("SpriteFrames_fo3no")
+animation = &"on"
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="BackBufferCopy" type="BackBufferCopy" parent="Control"]
+z_index = -2
+material = SubResource("ShaderMaterial_j0toc")
+copy_mode = 2
+
+[node name="Mask" type="Sprite2D" parent="Control/BackBufferCopy"]
+visible = false
+z_index = 2
+material = SubResource("ShaderMaterial_yeq0y")
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("2_05f22")
+
+[node name="Lantern" type="Area2D" parent="." groups=["interactable"]]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Lantern"]
+shape = SubResource("CircleShape2D_ra638")

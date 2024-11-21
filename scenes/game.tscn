@@ -1,0 +1,28 @@
+[gd_scene load_steps=4 format=3 uid="uid://dub82bisj1d66"]
+
+[ext_resource type="PackedScene" uid="uid://b4ativfivlori" path="res://scenes/screens/screen_template.tscn" id="1_ob0rg"]
+[ext_resource type="PackedScene" uid="uid://xdp5fq0gat6l" path="res://scenes/character/character.tscn" id="2_e2o7i"]
+[ext_resource type="PackedScene" uid="uid://desqgj8g6ig5p" path="res://scenes/character/lantern.tscn" id="3_xkblx"]
+
+[node name="Game" type="Node2D"]
+
+[node name="Screen" parent="." instance=ExtResource("1_ob0rg")]
+
+[node name="Screen2" parent="." instance=ExtResource("1_ob0rg")]
+position = Vector2(-512, 0)
+
+[node name="Screen3" parent="." instance=ExtResource("1_ob0rg")]
+position = Vector2(-512, -288)
+
+[node name="Screen4" parent="." instance=ExtResource("1_ob0rg")]
+position = Vector2(0, -288)
+
+[node name="Camera" type="Camera2D" parent="."]
+position = Vector2(256, 144)
+zoom = Vector2(2.25, 2.25)
+
+[node name="Character" parent="." instance=ExtResource("2_e2o7i")]
+position = Vector2(256, 256)
+
+[node name="Lantern" parent="." instance=ExtResource("3_xkblx")]
+position = Vector2(256, 96)
