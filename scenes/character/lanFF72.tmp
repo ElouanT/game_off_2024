@@ -36,9 +36,17 @@ animations = [{
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_j0toc"]
 shader = ExtResource("2_k8yam")
+shader_parameter/center = null
+shader_parameter/force = null
+shader_parameter/size = null
+shader_parameter/thickness = null
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_yeq0y"]
 shader = ExtResource("2_k8yam")
+shader_parameter/center = Vector2(0, 0)
+shader_parameter/force = 0.025
+shader_parameter/size = 0.325
+shader_parameter/thickness = 0.12
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_7sc84"]
 radius = 72.0
@@ -49,7 +57,7 @@ script = ExtResource("1_uwsnk")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 z_index = 1
 sprite_frames = SubResource("SpriteFrames_fo3no")
-animation = &"off"
+animation = &"on"
 
 [node name="Lantern" type="Area2D" parent="." groups=["interactable"]]
 
@@ -58,11 +66,9 @@ shape = SubResource("CircleShape2D_ra638")
 
 [node name="Control" type="Control" parent="."]
 layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
 
 [node name="BackBufferCopy" type="BackBufferCopy" parent="Control"]
 z_index = -2

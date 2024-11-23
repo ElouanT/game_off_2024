@@ -10,6 +10,8 @@ radius = 9.05539
 
 [node name="Character" type="CharacterBody2D"]
 z_index = 7
+collision_layer = 145
+collision_mask = 145
 script = ExtResource("1_ukv3u")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]

@@ -5,11 +5,10 @@ const SPEED = 150
 var direction: Vector2
 var has_lantern: bool = false
 var lantern: Node2D
-var mask: Node2D
+var mirror_zone_entered: int = 0
 
 func _ready():
 	lantern = get_parent().get_node("Lantern")
-	mask = lantern.get_node("Control").get_node("BackBufferCopy").get_node("Mask")
 
 func _process(delta):
 	# Basic movements
@@ -40,9 +39,24 @@ func _process(delta):
 					
 	if(Input.is_action_just_pressed("secondary_action")):
 		if has_lantern:
-			mask.visible = !mask.visible
+			lantern.flip()
 		else:
 			for area in $Area2D.get_overlapping_areas():
 				if area.is_in_group("interactable"):
 					if area.name == "Lantern":
-						mask.visible = !mask.visible
+						lantern.flip()
+						
+func enter_mirror_zone():
+	mirror_zone_entered += 1
+	set_collision_layer_value(6, true)
+	set_collision_mask_value(6, true)
+	set_collision_layer_value(5, false)
+	set_collision_mask_value(5, false)
+
+func leave_mirror_zone():
+	mirror_zone_entered -= 1
+	if (mirror_zone_entered == 0):
+		set_collision_layer_value(5, true)
+		set_collision_mask_value(5, true)
+		set_collision_layer_value(6, false)
+		set_collision_mask_value(6, false)

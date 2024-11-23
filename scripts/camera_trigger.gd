@@ -9,7 +9,6 @@ func _on_body_entered(body):
 	camera_anchor = get_parent().get_node("CameraOrigin").global_position
 	camera_position = get_viewport().get_camera_2d().transform.origin
 	entered = true
-	# get_viewport().get_camera_2d().transform.origin = get_parent().get_node("CameraOrigin").global_position
 
 func _on_body_exited(body: Node2D) -> void:
 	entered = false

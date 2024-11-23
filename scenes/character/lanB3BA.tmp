@@ -49,7 +49,7 @@ script = ExtResource("1_uwsnk")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 z_index = 1
 sprite_frames = SubResource("SpriteFrames_fo3no")
-animation = &"off"
+animation = &"on"
 
 [node name="Lantern" type="Area2D" parent="." groups=["interactable"]]
 
@@ -58,11 +58,9 @@ shape = SubResource("CircleShape2D_ra638")
 
 [node name="Control" type="Control" parent="."]
 layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
 
 [node name="BackBufferCopy" type="BackBufferCopy" parent="Control"]
 z_index = -2
@@ -80,7 +78,6 @@ texture = ExtResource("2_05f22")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="MirrorZone"]
 shape = SubResource("CircleShape2D_7sc84")
-disabled = true
 
 [connection signal="body_entered" from="MirrorZone" to="." method="_on_mirror_zone_body_entered"]
 [connection signal="body_exited" from="MirrorZone" to="." method="_on_mirror_zone_body_exited"]
