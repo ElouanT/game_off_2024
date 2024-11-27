@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://d612xto80xir"
+path="res://.godot/imported/lantern_on.wav-35a67f3ee2f819b4183d91d5d2fd7026.sample"
+
+[deps]
+
+source_file="res://assets/audio/sound effect/lantern_on.wav"
+dest_files=["res://.godot/imported/lantern_on.wav-35a67f3ee2f819b4183d91d5d2fd7026.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0

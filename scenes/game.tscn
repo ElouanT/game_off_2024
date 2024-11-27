@@ -2,7 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://b4ativfivlori" path="res://scenes/screens/screen_template.tscn" id="1_ob0rg"]
 [ext_resource type="PackedScene" uid="uid://xdp5fq0gat6l" path="res://scenes/character/character.tscn" id="2_e2o7i"]
-[ext_resource type="PackedScene" uid="uid://desqgj8g6ig5p" path="res://scenes/character/lantern.tscn" id="3_xkblx"]
+[ext_resource type="PackedScene" uid="uid://desqgj8g6ig5p" path="res://scenes/object/lantern.tscn" id="3_xkblx"]
 
 [node name="Game" type="Node2D"]
 

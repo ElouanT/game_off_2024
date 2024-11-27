@@ -6,7 +6,7 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_s7ykl"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_sn4ja"]
-radius = 9.05539
+radius = 8.0
 
 [node name="Character" type="CharacterBody2D"]
 z_index = 7

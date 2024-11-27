@@ -1,0 +1,140 @@
+extends Node2D
+
+var overworld_tilemap : TileMapLayer
+var mirror_tilemap : TileMapLayer
+var generators : Array[Vector2i]
+var overworld_cables : Dictionary
+var mirror_cables : Dictionary
+var pressure_plates : Dictionary
+var all_boxes : Dictionary
+
+func _ready() -> void:
+	overworld_tilemap = $Tilemaps/Overworld
+	mirror_tilemap = $Tilemaps/MirrorWorld
+	
+	generators = overworld_tilemap.get_used_cells_by_id(0, Vector2(10, 0))
+	generators.append_array(overworld_tilemap.get_used_cells_by_id(0, Vector2(11, 0)))
+	generators.append_array(overworld_tilemap.get_used_cells_by_id(0, Vector2(10, 1)))
+	generators.append_array(overworld_tilemap.get_used_cells_by_id(0, Vector2(11, 1)))
+	
+	overworld_cables = {}
+	mirror_cables = {}
+	
+	for x in range(6, 8):
+		for y in range(0, 6):
+			for cell in overworld_tilemap.get_used_cells_by_id(0, Vector2(x, y)):
+				overworld_cables[cell] = Vector2i(x, y)
+			for cell in mirror_tilemap.get_used_cells_by_id(0, Vector2(x, y)):
+				mirror_cables[cell] = Vector2i(x, y)
+			
+	# Boxes		
+	for cell in overworld_tilemap.get_used_cells_by_id(0, Vector2(10, 2)):
+		pressure_plates[cell] = "overworld"
+	for cell in mirror_tilemap.get_used_cells_by_id(0, Vector2(10, 2)):
+		pressure_plates[cell] = "mirror"
+		
+	var overworld_boxes = overworld_tilemap.get_used_cells_by_id(0, Vector2i(10, 4))
+	for cell in overworld_boxes:
+		var box = load("res://scenes/object/box.tscn").instantiate()
+		overworld_tilemap.set_cell(cell, 0, Vector2i(2, 1))
+		box.new_position = overworld_tilemap.map_to_local(cell)
+		box.global_position = overworld_tilemap.map_to_local(cell)
+		box.tilemap = overworld_tilemap
+		add_child(box)
+		all_boxes[box] = "overworld"
+		
+	var mirror_boxes = mirror_tilemap.get_used_cells_by_id(0, Vector2i(11, 4))
+	for cell in mirror_boxes:
+		var box = load("res://scenes/object/box.tscn").instantiate()
+		mirror_tilemap.set_cell(cell, 0, Vector2i(2, 4))
+		box.new_position = mirror_tilemap.map_to_local(cell)
+		box.global_position = mirror_tilemap.map_to_local(cell)
+		box.tilemap = mirror_tilemap
+		box.mirrored = true
+		add_child(box)
+		all_boxes[box] = "mirror"
+
+
+
+func _process(delta: float) -> void:
+	# Reset signal
+	for cable in overworld_cables:
+		overworld_tilemap.set_cell(cable, 0, overworld_cables[cable])
+	for cable in mirror_cables:
+		mirror_tilemap.set_cell(cable, 0, mirror_cables[cable])
+	
+	var last_tile = Vector2i()
+	var current_tile = Vector2i()
+	
+	# Check if box is on pressure plate
+	for plate in pressure_plates:
+		generators.erase(plate)
+		for box in all_boxes:
+			if plate == box.tilemap.local_to_map(box.position) && pressure_plates[plate] == all_boxes[box]:
+				generators.append(plate)
+	
+	# Diffuse signal
+	for generator in generators:
+		current_tile = generator
+		
+		while last_tile != current_tile:
+			last_tile = current_tile # Only one adjacent tile is treated
+			
+			var up_tile = Vector2i(current_tile.x, current_tile.y-1)
+			var down_tile = Vector2i(current_tile.x, current_tile.y+1)
+			var left_tile = Vector2i(current_tile.x-1, current_tile.y)
+			var right_tile = Vector2i(current_tile.x+1, current_tile.y)
+			
+			if (draw_visible_tile(up_tile, current_tile)):
+				current_tile = up_tile
+			if (draw_visible_tile(down_tile, current_tile)):
+				current_tile = down_tile
+			if (draw_visible_tile(left_tile, current_tile)):
+				current_tile = left_tile
+			if (draw_visible_tile(right_tile, current_tile)):
+				current_tile = right_tile
+				
+		
+func draw_visible_tile(position: Vector2i, current_tile: Vector2i) -> bool:
+	for lantern in get_tree().get_nodes_in_group("lantern"):
+		var real_position = overworld_tilemap.map_to_local(position) # Either tilemap give same position
+		
+		if (lantern.is_active):
+			var distance = real_position.distance_to(lantern.global_position)
+			
+			var overworld_cell_atlas = overworld_tilemap.get_cell_atlas_coords(position)
+			var mirror_cell_atlas = mirror_tilemap.get_cell_atlas_coords(position)
+			
+			var current_cell_atlas = overworld_tilemap.get_cell_atlas_coords(current_tile)
+			
+			if (distance < 90 && mirror_cell_atlas.x in range(6, 8) && mirror_cell_atlas.y <= 5
+			&& !current_cell_atlas.x in range(8, 10) || !current_cell_atlas.y <=5):
+				mirror_tilemap.set_cell(position, 0, Vector2i(mirror_cell_atlas.x+2, mirror_cell_atlas.y))
+				
+			if (distance < 65 && mirror_cell_atlas.x in range(6, 8) && mirror_cell_atlas.y <= 5 ):
+				mirror_tilemap.set_cell(position, 0, Vector2i(mirror_cell_atlas.x+2, mirror_cell_atlas.y))
+				
+			if (distance > 55):
+				if (overworld_cell_atlas.x in range(6, 8) && overworld_cell_atlas.y <= 5):
+					overworld_tilemap.set_cell(position, 0, Vector2i(overworld_cell_atlas.x+2, overworld_cell_atlas.y))			
+			
+			if (distance < 65 && mirror_cell_atlas.x in range(6, 8) && mirror_cell_atlas.y <= 5):
+				return true
+			
+			if (distance > 80 &&  overworld_cell_atlas.x in range(6, 8) && overworld_cell_atlas.y <= 5):
+				return true
+			
+			if (distance > 55 && distance < 80):
+				if (overworld_cell_atlas.x in range(6, 8) && overworld_cell_atlas.y <= 5
+				&& mirror_cell_atlas.x in range(6, 8) && mirror_cell_atlas.y <= 5):
+					mirror_tilemap.set_cell(position, 0, Vector2i(mirror_cell_atlas.x+2, mirror_cell_atlas.y))
+					return true
+				
+		else:
+			var cell_atlas = overworld_tilemap.get_cell_atlas_coords(position)
+			if (cell_atlas.x in range(6, 8) && cell_atlas.y <= 5):
+				overworld_tilemap.set_cell(position, 0, Vector2i(cell_atlas.x+2, cell_atlas.y)) # The powered versions are two tiles away
+				return true	
+			
+	return false
+		
