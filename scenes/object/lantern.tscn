@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://desqgj8g6ig5p"]
+[gd_scene load_steps=16 format=3 uid="uid://desqgj8g6ig5p"]
 
 [ext_resource type="Texture2D" uid="uid://cn1efh6nq8oi8" path="res://assets/images/lantern.png" id="1_12sbh"]
 [ext_resource type="Script" path="res://scripts/lantern.gd" id="1_uwsnk"]
@@ -34,6 +34,9 @@ animations = [{
 }]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ra638"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_8uyer"]
+size = Vector2(9, 15)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_j0toc"]
 shader = ExtResource("2_k8yam")
@@ -97,6 +100,12 @@ animation = &"off"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Lantern"]
 shape = SubResource("CircleShape2D_ra638")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(-0.5, 0.5)
+shape = SubResource("RectangleShape2D_8uyer")
 
 [node name="Control" type="Control" parent="."]
 layout_mode = 3

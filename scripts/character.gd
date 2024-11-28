@@ -44,11 +44,13 @@ func _process(delta):
 			lantern.position = $Area2D/QueryTrigger.global_position
 			lantern.get_node("AnimatedSprite2D").scale = Vector2(1, 1)
 			has_lantern = false
+			lantern.get_node("StaticBody2D").get_child(0).set_deferred("disabled", false)
 		else:
 			for area in $Area2D.get_overlapping_areas():
 				if area.is_in_group("interactable"):
 					if area.name == "Lantern":
 						has_lantern = true
+						lantern.get_node("StaticBody2D").get_child(0).set_deferred("disabled",true)
 						lantern.get_node("AnimatedSprite2D").scale = Vector2(0.9, 0.8)
 					
 	if(Input.is_action_just_pressed("secondary_action")):
