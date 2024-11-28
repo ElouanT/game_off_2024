@@ -132,10 +132,10 @@ func _process(delta: float) -> void:
 		
 func draw_visible_tile(position: Vector2i, current_tile: Vector2i) -> bool:
 	for lantern in get_tree().get_nodes_in_group("lantern"):
-		var real_position = overworld_tilemap.map_to_local(position) # Either tilemap give same position
+		var real_position = to_global(overworld_tilemap.map_to_local(position)) # Either tilemap give same position
 		
 		if (lantern.is_active):
-			var distance = real_position.distance_to(lantern.global_position)
+			var distance = real_position.distance_to(lantern.position)
 			
 			var overworld_cell_atlas = overworld_tilemap.get_cell_atlas_coords(position)
 			var mirror_cell_atlas = mirror_tilemap.get_cell_atlas_coords(position)
