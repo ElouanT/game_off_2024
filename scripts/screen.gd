@@ -3,20 +3,26 @@ extends Node2D
 var overworld_tilemap : TileMapLayer
 var mirror_tilemap : TileMapLayer
 var generators : Array[Vector2i]
+var sensors : Array[Vector2i] # Only in overworld dimension
+var spikes : Array[Vector2i]
 var overworld_cables : Dictionary
 var mirror_cables : Dictionary
 var pressure_plates : Dictionary
 var all_boxes : Dictionary
 
+var solved: bool = false
+
 func _ready() -> void:
 	overworld_tilemap = $Tilemaps/Overworld
 	mirror_tilemap = $Tilemaps/MirrorWorld
 	
+	# Generators
 	generators = overworld_tilemap.get_used_cells_by_id(0, Vector2(10, 0))
 	generators.append_array(overworld_tilemap.get_used_cells_by_id(0, Vector2(11, 0)))
 	generators.append_array(overworld_tilemap.get_used_cells_by_id(0, Vector2(10, 1)))
 	generators.append_array(overworld_tilemap.get_used_cells_by_id(0, Vector2(11, 1)))
 	
+	# Cables
 	overworld_cables = {}
 	mirror_cables = {}
 	
@@ -26,11 +32,17 @@ func _ready() -> void:
 				overworld_cables[cell] = Vector2i(x, y)
 			for cell in mirror_tilemap.get_used_cells_by_id(0, Vector2(x, y)):
 				mirror_cables[cell] = Vector2i(x, y)
+	
+	# Sensors
+	sensors = overworld_tilemap.get_used_cells_by_id(0, Vector2(10, 2))
+	
+	# Spikes
+	spikes = overworld_tilemap.get_used_cells_by_id(0, Vector2(11, 3))
 			
 	# Boxes		
-	for cell in overworld_tilemap.get_used_cells_by_id(0, Vector2(10, 2)):
+	for cell in overworld_tilemap.get_used_cells_by_id(0, Vector2(10, 5)):
 		pressure_plates[cell] = "overworld"
-	for cell in mirror_tilemap.get_used_cells_by_id(0, Vector2(10, 2)):
+	for cell in mirror_tilemap.get_used_cells_by_id(0, Vector2(10, 5)):
 		pressure_plates[cell] = "mirror"
 		
 	var overworld_boxes = overworld_tilemap.get_used_cells_by_id(0, Vector2i(10, 4))
@@ -53,7 +65,6 @@ func _ready() -> void:
 		box.mirrored = true
 		add_child(box)
 		all_boxes[box] = "mirror"
-
 
 
 func _process(delta: float) -> void:
@@ -93,7 +104,27 @@ func _process(delta: float) -> void:
 				current_tile = left_tile
 			if (draw_visible_tile(right_tile, current_tile)):
 				current_tile = right_tile
+	
+	# Sensor
+	solved = false
+		
+	for sensor in sensors:
+		overworld_tilemap.set_cell(sensor, 0, Vector2i(10, 2)) # Reinitialize
+		
+		for tile in overworld_tilemap.get_surrounding_cells(sensor):
+			var cell_atlas = overworld_tilemap.get_cell_atlas_coords(tile)
+			if (cell_atlas.x in range(8, 10) && cell_atlas.y <= 5):
+				overworld_tilemap.set_cell(sensor, 0, Vector2i(11, 2))
 				
+	if (overworld_tilemap.get_used_cells_by_id(0, Vector2(10, 2)) == []): # All sensors activated
+		solved = true
+		
+	if solved:
+		for spike in spikes:
+			overworld_tilemap.set_cell(spike, 0, Vector2i(10, 3))
+	else:
+		for spike in spikes:
+			overworld_tilemap.set_cell(spike, 0, Vector2i(11, 3))
 		
 func draw_visible_tile(position: Vector2i, current_tile: Vector2i) -> bool:
 	for lantern in get_tree().get_nodes_in_group("lantern"):

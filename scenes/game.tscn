@@ -25,4 +25,4 @@ zoom = Vector2(2.25, 2.25)
 position = Vector2(256, 256)
 
 [node name="Lantern" parent="." instance=ExtResource("3_xkblx")]
-position = Vector2(256, 96)
+position = Vector2(256, 145)

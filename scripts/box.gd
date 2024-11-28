@@ -24,6 +24,6 @@ func _process(delta: float) -> void:
 				|| destination_cell_atlas == Vector2i(2, 4)
 				|| (destination_cell_atlas.x in range(6, 10) && destination_cell_atlas.y <= 5)
 				|| (destination_cell_atlas.x in range(10, 12) && destination_cell_atlas.y <= 1)
-				||	destination_cell_atlas == Vector2i(10, 2)):
+				||	(destination_cell_atlas.x in range(10, 12) && destination_cell_atlas.y == 5)):
 					new_position = tilemap.map_to_local(destination)
 	position = lerp(position, new_position, 8 * delta)
