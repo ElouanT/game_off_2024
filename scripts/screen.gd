@@ -142,7 +142,7 @@ func draw_visible_tile(position: Vector2i, current_tile: Vector2i) -> bool:
 			
 			var current_cell_atlas = overworld_tilemap.get_cell_atlas_coords(current_tile)
 			
-			if (distance < 90 && mirror_cell_atlas.x in range(6, 8) && mirror_cell_atlas.y <= 5
+			if (distance < 85 && mirror_cell_atlas.x in range(6, 8) && mirror_cell_atlas.y <= 5
 			&& !current_cell_atlas.x in range(8, 10) || !current_cell_atlas.y <=5):
 				mirror_tilemap.set_cell(position, 0, Vector2i(mirror_cell_atlas.x+2, mirror_cell_atlas.y))
 				
