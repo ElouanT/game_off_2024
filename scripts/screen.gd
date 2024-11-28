@@ -10,6 +10,7 @@ var mirror_cables : Dictionary
 var pressure_plates : Dictionary
 var all_boxes : Dictionary
 
+var on_screen = false
 var solved: bool = false
 
 func _ready() -> void:
@@ -68,6 +69,9 @@ func _ready() -> void:
 
 
 func _process(delta: float) -> void:
+	if (!on_screen):
+		return
+		
 	# Reset signal
 	for cable in overworld_cables:
 		overworld_tilemap.set_cell(cable, 0, overworld_cables[cable])

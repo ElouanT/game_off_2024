@@ -9,9 +9,11 @@ func _on_body_entered(body):
 	camera_anchor = get_parent().get_node("CameraOrigin").global_position
 	camera_position = get_viewport().get_camera_2d().transform.origin
 	entered = true
+	get_parent().get_parent().on_screen = true
 
 func _on_body_exited(body: Node2D) -> void:
 	entered = false
+	get_parent().get_parent().on_screen = false
 
 func _process(delta: float) -> void:
 	if (entered):

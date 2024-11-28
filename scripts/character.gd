@@ -17,25 +17,39 @@ func _process(delta):
 	
 	velocity = direction.normalized() * SPEED
 	move_and_slide()
+	
+	# Animation
+	if(direction.x != 0):
+		$AnimatedSprite2D.flip_h = direction.x > 0
+	
+	if(direction.normalized() == Vector2(0, 0)):
+		$AnimatedSprite2D.pause()
+		
+	if(direction.x != 0 && direction.y == 0):
+		$AnimatedSprite2D.play("left")
+	if(direction.y < 0):
+		$AnimatedSprite2D.play("up")
+	if(direction.y > 0):
+		$AnimatedSprite2D.play("down")
 
 	# Query detection
 	if(direction.normalized() != Vector2(0, 0)):
 		$Area2D/QueryTrigger.position = direction.normalized() * 20
 		
 	if(has_lantern):
-		lantern.position = $Sprite2D.global_position
+		lantern.position = $AnimatedSprite2D.global_position
 		
 	if(Input.is_action_just_pressed("action")):
 		if has_lantern:
 			lantern.position = $Area2D/QueryTrigger.global_position
-			lantern.get_node("AnimatedSprite2D").show()
+			lantern.get_node("AnimatedSprite2D").scale = Vector2(1, 1)
 			has_lantern = false
 		else:
 			for area in $Area2D.get_overlapping_areas():
 				if area.is_in_group("interactable"):
 					if area.name == "Lantern":
 						has_lantern = true
-						lantern.get_node("AnimatedSprite2D").hide()
+						lantern.get_node("AnimatedSprite2D").scale = Vector2(0.9, 0.8)
 					
 	if(Input.is_action_just_pressed("secondary_action")):
 		if has_lantern:
