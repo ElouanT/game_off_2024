@@ -7,8 +7,11 @@ var has_lantern: bool = false
 var lantern: Node2D
 var mirror_zone_entered: int = 0
 
+var music: Node2D
+
 func _ready():
 	lantern = get_parent().get_node("Lantern")
+	music = get_parent().get_node("Music")
 
 func _process(delta):
 	# Basic movements
@@ -68,10 +71,14 @@ func enter_mirror_zone():
 	set_collision_mask_value(6, true)
 	set_collision_layer_value(5, false)
 	set_collision_mask_value(5, false)
+	
+	if (mirror_zone_entered == 1):
+		music.mirror_transition()
 
 func leave_mirror_zone():
 	mirror_zone_entered -= 1
 	if (mirror_zone_entered == 0):
+		music.overworld_transition()
 		set_collision_layer_value(5, true)
 		set_collision_mask_value(5, true)
 		set_collision_layer_value(6, false)

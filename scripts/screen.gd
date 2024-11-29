@@ -19,9 +19,6 @@ func _ready() -> void:
 	
 	# Generators
 	generators = overworld_tilemap.get_used_cells_by_id(0, Vector2(10, 0))
-	generators.append_array(overworld_tilemap.get_used_cells_by_id(0, Vector2(11, 0)))
-	generators.append_array(overworld_tilemap.get_used_cells_by_id(0, Vector2(10, 1)))
-	generators.append_array(overworld_tilemap.get_used_cells_by_id(0, Vector2(11, 1)))
 	
 	# Cables
 	overworld_cables = {}
@@ -41,9 +38,9 @@ func _ready() -> void:
 	spikes = overworld_tilemap.get_used_cells_by_id(0, Vector2(11, 3))
 			
 	# Boxes		
-	for cell in overworld_tilemap.get_used_cells_by_id(0, Vector2(10, 5)):
+	for cell in overworld_tilemap.get_used_cells_by_id(0, Vector2(11, 0)):
 		pressure_plates[cell] = "overworld"
-	for cell in mirror_tilemap.get_used_cells_by_id(0, Vector2(10, 5)):
+	for cell in mirror_tilemap.get_used_cells_by_id(0, Vector2(11, 0)):
 		pressure_plates[cell] = "mirror"
 		
 	var overworld_boxes = overworld_tilemap.get_used_cells_by_id(0, Vector2i(10, 4))
@@ -66,6 +63,17 @@ func _ready() -> void:
 		box.mirrored = true
 		add_child(box)
 		all_boxes[box] = "mirror"
+		
+	var crossing_boxes = overworld_tilemap.get_used_cells_by_id(0, Vector2i(10, 5))
+	for cell in crossing_boxes:
+		var crossing_box = load("res://scenes/object/crossing_box.tscn").instantiate()
+		overworld_tilemap.set_cell(cell, 0, Vector2i(2, 1))
+		crossing_box.new_position = overworld_tilemap.map_to_local(cell)
+		crossing_box.global_position = overworld_tilemap.map_to_local(cell)
+		crossing_box.tilemap = overworld_tilemap
+		crossing_box.mirrored = false
+		add_child(crossing_box)
+		all_boxes[crossing_box] = "crossing"
 
 
 func _process(delta: float) -> void:
@@ -85,8 +93,9 @@ func _process(delta: float) -> void:
 	for plate in pressure_plates:
 		generators.erase(plate)
 		for box in all_boxes:
-			if plate == box.tilemap.local_to_map(box.position) && pressure_plates[plate] == all_boxes[box]:
-				generators.append(plate)
+			if plate == box.tilemap.local_to_map(box.position):
+				if all_boxes[box] == "crossing" || pressure_plates[plate] == all_boxes[box]:
+					generators.append(plate)
 	
 	# Diffuse signal
 	for generator in generators:

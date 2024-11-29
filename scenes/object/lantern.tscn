@@ -48,7 +48,7 @@ shader_parameter/thickness = null
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_8nixf"]
 shader = ExtResource("2_k8yam")
 shader_parameter/radius = 0.0
-shader_parameter/size = 0.525
+shader_parameter/size = 0.0
 shader_parameter/force = 0.05
 shader_parameter/thickness = 0.2
 
@@ -86,7 +86,7 @@ _data = {
 }
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_7sc84"]
-radius = 70.0
+radius = 60.0
 
 [node name="Lantern" type="Node2D" groups=["lantern"]]
 script = ExtResource("1_uwsnk")
@@ -155,5 +155,7 @@ bus = &"SFX"
 stream = ExtResource("5_3qmbc")
 bus = &"SFX"
 
+[connection signal="area_entered" from="MirrorZone" to="." method="_on_mirror_zone_area_entered"]
+[connection signal="area_exited" from="MirrorZone" to="." method="_on_mirror_zone_area_exited"]
 [connection signal="body_entered" from="MirrorZone" to="." method="_on_mirror_zone_body_entered"]
 [connection signal="body_exited" from="MirrorZone" to="." method="_on_mirror_zone_body_exited"]

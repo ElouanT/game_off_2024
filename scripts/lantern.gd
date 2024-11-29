@@ -32,3 +32,13 @@ func _on_mirror_zone_body_entered(body: Node2D) -> void:
 func _on_mirror_zone_body_exited(body: Node2D) -> void:
 	if(body.name == "Character"):
 		body.leave_mirror_zone()
+
+
+func _on_mirror_zone_area_entered(area: Area2D) -> void:
+	if(area.get_parent().name == "CrossingBox"):
+		area.get_parent().enter_mirror_zone()
+
+
+func _on_mirror_zone_area_exited(area: Area2D) -> void:
+	if(area.get_parent().name == "CrossingBox"):
+		area.get_parent().leave_mirror_zone()
