@@ -28,8 +28,12 @@ func _process(delta: float) -> void:
 	for area in $Area2D.get_overlapping_areas():
 		if (area.get_parent().name == "Character"):
 			var character = area.get_parent()
-			var lantern = get_parent().get_parent().get_node("Lantern")
-			if mirrored == (lantern.is_active && character.position.distance_to(lantern.position) <= 70):
+			var inside_mirror_zone = false
+			for lantern in get_tree().get_nodes_in_group("lantern"):
+				if lantern.is_active && character.position.distance_to(lantern.position) <= 70:
+					inside_mirror_zone = true
+			
+			if mirrored == inside_mirror_zone:
 				for body in $Area2D.get_overlapping_bodies():
 					if (body.name == "Character"):
 						var destination = tilemap.local_to_map(position) + Vector2i(body.direction.normalized())

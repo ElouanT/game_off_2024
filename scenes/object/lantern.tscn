@@ -94,7 +94,7 @@ script = ExtResource("1_uwsnk")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 z_index = 10
 sprite_frames = SubResource("SpriteFrames_fo3no")
-animation = &"off"
+animation = &"on"
 
 [node name="Lantern" type="Area2D" parent="." groups=["interactable"]]
 

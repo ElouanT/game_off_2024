@@ -62,8 +62,7 @@ func _process(delta):
 		else:
 			for area in $Area2D.get_overlapping_areas():
 				if area.is_in_group("interactable"):
-					if area.name == "Lantern":
-						lantern.flip()
+					area.get_parent().flip()
 						
 func enter_mirror_zone():
 	mirror_zone_entered += 1

@@ -1,0 +1,161 @@
+[gd_scene load_steps=16 format=3 uid="uid://cdvqp71gp7g83"]
+
+[ext_resource type="Script" path="res://scripts/lantern.gd" id="1_6d7hl"]
+[ext_resource type="Texture2D" uid="uid://dr1aapane0gbo" path="res://assets/images/fixed_lantern.png" id="2_h7rig"]
+[ext_resource type="Shader" path="res://assets/shaders/mask.gdshader" id="3_53nmy"]
+[ext_resource type="AudioStream" uid="uid://d612xto80xir" path="res://assets/audio/sound effect/lantern_on.wav" id="4_hxclm"]
+[ext_resource type="AudioStream" uid="uid://cxifgnvxs4y27" path="res://assets/audio/sound effect/lantern_off.wav" id="5_opwtq"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yn5uy"]
+atlas = ExtResource("2_h7rig")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_evcx4"]
+atlas = ExtResource("2_h7rig")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_py5b2"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yn5uy")
+}],
+"loop": true,
+"name": &"off",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_evcx4")
+}],
+"loop": true,
+"name": &"on",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ha86p"]
+size = Vector2(9, 15)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ra638"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_j0toc"]
+shader = ExtResource("3_53nmy")
+shader_parameter/radius = null
+shader_parameter/size = null
+shader_parameter/force = null
+shader_parameter/thickness = null
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_8nixf"]
+shader = ExtResource("3_53nmy")
+shader_parameter/radius = 0.0
+shader_parameter/size = 0.0
+shader_parameter/force = 0.05
+shader_parameter/thickness = 0.2
+
+[sub_resource type="Animation" id="Animation_c60lp"]
+resource_name = "lantern_on"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:material:shader_parameter/radius")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(0.2, 1),
+"update": 0,
+"values": [0.0, 0.35]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:material:shader_parameter/size")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(0.5, 1),
+"update": 0,
+"values": [0.0, 0.5]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_b26h4"]
+_data = {
+"lantern_on": SubResource("Animation_c60lp")
+}
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_7sc84"]
+radius = 60.0
+
+[node name="FixedLantern" type="Node2D" groups=["lantern"]]
+script = ExtResource("1_6d7hl")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+z_index = 2
+sprite_frames = SubResource("SpriteFrames_py5b2")
+animation = &"off"
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(-0.5, 0.5)
+shape = SubResource("RectangleShape2D_ha86p")
+
+[node name="Area2D" type="Area2D" parent="." groups=["interactable"]]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CircleShape2D_ra638")
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="BackBufferCopy" type="BackBufferCopy" parent="Control"]
+z_index = -2
+material = SubResource("ShaderMaterial_j0toc")
+copy_mode = 2
+
+[node name="Mask" type="ColorRect" parent="Control/BackBufferCopy"]
+z_index = 2
+material = SubResource("ShaderMaterial_8nixf")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -100.0
+offset_top = -100.0
+offset_right = -100.0
+offset_bottom = -100.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MaskAnimation" type="AnimationPlayer" parent="Control/BackBufferCopy"]
+root_node = NodePath("../Mask")
+libraries = {
+"": SubResource("AnimationLibrary_b26h4")
+}
+
+[node name="MirrorZone" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MirrorZone"]
+shape = SubResource("CircleShape2D_7sc84")
+disabled = true
+
+[node name="Sounds" type="Node2D" parent="."]
+
+[node name="On" type="AudioStreamPlayer2D" parent="Sounds"]
+stream = ExtResource("4_hxclm")
+bus = &"SFX"
+
+[node name="Off" type="AudioStreamPlayer2D" parent="Sounds"]
+stream = ExtResource("5_opwtq")
+bus = &"SFX"
+
+[connection signal="area_entered" from="MirrorZone" to="." method="_on_mirror_zone_area_entered"]
+[connection signal="area_exited" from="MirrorZone" to="." method="_on_mirror_zone_area_exited"]
+[connection signal="body_entered" from="MirrorZone" to="." method="_on_mirror_zone_body_entered"]
+[connection signal="body_exited" from="MirrorZone" to="." method="_on_mirror_zone_body_exited"]
