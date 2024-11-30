@@ -1,10 +1,11 @@
-[gd_scene load_steps=16 format=3 uid="uid://desqgj8g6ig5p"]
+[gd_scene load_steps=17 format=3 uid="uid://desqgj8g6ig5p"]
 
 [ext_resource type="Texture2D" uid="uid://cn1efh6nq8oi8" path="res://assets/images/lantern.png" id="1_12sbh"]
 [ext_resource type="Script" path="res://scripts/lantern.gd" id="1_uwsnk"]
 [ext_resource type="Shader" path="res://assets/shaders/mask.gdshader" id="2_k8yam"]
 [ext_resource type="AudioStream" uid="uid://d612xto80xir" path="res://assets/audio/sound effect/lantern_on.wav" id="4_046l2"]
 [ext_resource type="AudioStream" uid="uid://cxifgnvxs4y27" path="res://assets/audio/sound effect/lantern_off.wav" id="5_3qmbc"]
+[ext_resource type="Texture2D" uid="uid://3d2h33cdpjni" path="res://assets/images/circle.png" id="6_w2fpm"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_4iqei"]
 atlas = ExtResource("1_12sbh")
@@ -78,6 +79,18 @@ tracks/1/keys = {
 "transitions": PackedFloat32Array(0.5, 1),
 "update": 0,
 "values": [0.0, 0.5]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("../../../Contour:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(0.2, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0.804, 0.804)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_b26h4"]
@@ -154,6 +167,13 @@ bus = &"SFX"
 [node name="Off" type="AudioStreamPlayer2D" parent="Sounds"]
 stream = ExtResource("5_3qmbc")
 bus = &"SFX"
+
+[node name="Contour" type="Sprite2D" parent="."]
+visible = false
+z_index = -1
+position = Vector2(-5.96046e-08, -4.76837e-07)
+scale = Vector2(1e-05, 1e-05)
+texture = ExtResource("6_w2fpm")
 
 [connection signal="area_entered" from="MirrorZone" to="." method="_on_mirror_zone_area_entered"]
 [connection signal="area_exited" from="MirrorZone" to="." method="_on_mirror_zone_area_exited"]

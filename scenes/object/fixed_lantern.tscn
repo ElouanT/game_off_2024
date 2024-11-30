@@ -1,10 +1,11 @@
-[gd_scene load_steps=16 format=3 uid="uid://cdvqp71gp7g83"]
+[gd_scene load_steps=17 format=3 uid="uid://cdvqp71gp7g83"]
 
 [ext_resource type="Script" path="res://scripts/lantern.gd" id="1_6d7hl"]
 [ext_resource type="Texture2D" uid="uid://dr1aapane0gbo" path="res://assets/images/fixed_lantern.png" id="2_h7rig"]
 [ext_resource type="Shader" path="res://assets/shaders/mask.gdshader" id="3_53nmy"]
 [ext_resource type="AudioStream" uid="uid://d612xto80xir" path="res://assets/audio/sound effect/lantern_on.wav" id="4_hxclm"]
 [ext_resource type="AudioStream" uid="uid://cxifgnvxs4y27" path="res://assets/audio/sound effect/lantern_off.wav" id="5_opwtq"]
+[ext_resource type="Texture2D" uid="uid://3d2h33cdpjni" path="res://assets/images/circle.png" id="6_mn1hh"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_yn5uy"]
 atlas = ExtResource("2_h7rig")
@@ -79,6 +80,18 @@ tracks/1/keys = {
 "update": 0,
 "values": [0.0, 0.5]
 }
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("../../../Contour:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(0.2, 1),
+"update": 0,
+"values": [Vector2(1e-05, 1e-05), Vector2(0.804, 0.804)]
+}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_b26h4"]
 _data = {
@@ -88,7 +101,7 @@ _data = {
 [sub_resource type="CircleShape2D" id="CircleShape2D_7sc84"]
 radius = 60.0
 
-[node name="FixedLantern" type="Node2D" groups=["lantern", "object"]]
+[node name="FixedLantern" type="Node2D" groups=["lantern"]]
 script = ExtResource("1_6d7hl")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
@@ -154,6 +167,13 @@ bus = &"SFX"
 [node name="Off" type="AudioStreamPlayer2D" parent="Sounds"]
 stream = ExtResource("5_opwtq")
 bus = &"SFX"
+
+[node name="Contour" type="Sprite2D" parent="."]
+visible = false
+z_index = -1
+position = Vector2(-3.55271e-15, 0.250002)
+scale = Vector2(1e-05, 1e-05)
+texture = ExtResource("6_mn1hh")
 
 [connection signal="area_entered" from="MirrorZone" to="." method="_on_mirror_zone_area_entered"]
 [connection signal="area_exited" from="MirrorZone" to="." method="_on_mirror_zone_area_exited"]

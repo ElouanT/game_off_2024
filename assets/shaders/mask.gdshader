@@ -20,7 +20,4 @@ void fragment() {
 	if (dist >= radius) {
 		COLOR.a = 0.0;
 	}
-	if (dist >= radius && dist <= radius + 0.015) {
-		COLOR = vec4(0.2, 0, 0.3, 1);
-	}
 }

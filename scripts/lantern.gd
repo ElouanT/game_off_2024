@@ -12,12 +12,14 @@ func enable():
 	is_active = true
 	$Control/BackBufferCopy/Mask.visible = true
 	$MirrorZone/CollisionShape2D.disabled = false
+	$Contour.visible = true
 	$Control/BackBufferCopy/MaskAnimation.play("lantern_on")
 	$AnimatedSprite2D.play("on")
 	$Sounds/On.play()
 	
 func disable():
 	is_active = false
+	$Contour.visible = false
 	$Control/BackBufferCopy/Mask.visible = false
 	$MirrorZone/CollisionShape2D.disabled = true
 	$AnimatedSprite2D.play("off")

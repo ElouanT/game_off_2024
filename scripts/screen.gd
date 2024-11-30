@@ -49,7 +49,7 @@ func _ready() -> void:
 		var box = load("res://scenes/object/box.tscn").instantiate()
 		overworld_tilemap.set_cell(cell, 0, Vector2i(2, 1))
 		box.new_position = overworld_tilemap.map_to_local(cell)
-		box.global_position = overworld_tilemap.map_to_local(cell)
+		box.global_position = to_global(overworld_tilemap.map_to_local(cell))
 		box.tilemap = overworld_tilemap
 		add_child(box)
 		all_boxes[box] = "overworld"
@@ -59,7 +59,7 @@ func _ready() -> void:
 		var box = load("res://scenes/object/box.tscn").instantiate()
 		mirror_tilemap.set_cell(cell, 0, Vector2i(2, 4))
 		box.new_position = mirror_tilemap.map_to_local(cell)
-		box.global_position = mirror_tilemap.map_to_local(cell)
+		box.global_position = to_global(mirror_tilemap.map_to_local(cell))
 		box.tilemap = mirror_tilemap
 		box.mirrored = true
 		add_child(box)
@@ -70,7 +70,7 @@ func _ready() -> void:
 		var crossing_box = load("res://scenes/object/crossing_box.tscn").instantiate()
 		overworld_tilemap.set_cell(cell, 0, Vector2i(2, 1))
 		crossing_box.new_position = overworld_tilemap.map_to_local(cell)
-		crossing_box.global_position = overworld_tilemap.map_to_local(cell)
+		crossing_box.global_position = to_global(overworld_tilemap.map_to_local(cell))
 		crossing_box.tilemap = overworld_tilemap
 		crossing_box.mirrored = false
 		add_child(crossing_box)
@@ -82,7 +82,7 @@ func _ready() -> void:
 		var fixed_lantern = load("res://scenes/object/fixed_lantern.tscn").instantiate()
 		overworld_tilemap.set_cell(cell, 0, Vector2i(11, 1))
 		mirror_tilemap.set_cell(cell, 0, Vector2i(11, 1))
-		fixed_lantern.global_position = overworld_tilemap.map_to_local(cell)
+		fixed_lantern.global_position = to_global(overworld_tilemap.map_to_local(cell))
 		add_child(fixed_lantern)
 
 func _process(delta: float) -> void:
@@ -188,14 +188,13 @@ func draw_visible_tile(position: Vector2i, current_tile: Vector2i) -> bool:
 				&& mirror_cell_atlas.x in range(6, 10) && mirror_cell_atlas.y <= 5):
 					activated = true
 					
-					if overworld_cell_atlas.x in range(6, 8):
+					if mirror_cell_atlas.x in range(6, 8):
 						mirror_tilemap.set_cell(position, 0, Vector2i(mirror_cell_atlas.x+2, mirror_cell_atlas.y))
 		
 		else:
 			var cell_atlas = overworld_tilemap.get_cell_atlas_coords(position)
 			if (cell_atlas.x in range(6, 8) && cell_atlas.y <= 5):
 				overworld_tilemap.set_cell(position, 0, Vector2i(cell_atlas.x+2, cell_atlas.y)) # The powered versions are two tiles away
-				mirror_tilemap.set_cell(position, 0, Vector2i(cell_atlas.x+2, cell_atlas.y+3)) # Mirror version down 3 tiles
 				activated = true	
 	
 	checked_cables.append(position)

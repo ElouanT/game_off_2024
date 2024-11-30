@@ -1,6 +1,7 @@
-[gd_scene load_steps=11 format=3 uid="uid://dub82bisj1d66"]
+[gd_scene load_steps=12 format=3 uid="uid://dub82bisj1d66"]
 
-[ext_resource type="PackedScene" uid="uid://b4ativfivlori" path="res://scenes/screens/screen_template.tscn" id="1_ob0rg"]
+[ext_resource type="PackedScene" uid="uid://b4ativfivlori" path="res://scenes/screens/screen_demo.tscn" id="1_ob0rg"]
+[ext_resource type="PackedScene" uid="uid://bv8gub5i1cvfs" path="res://scenes/screens/screen_crossing_the_box.tscn" id="2_cu77i"]
 [ext_resource type="PackedScene" uid="uid://xdp5fq0gat6l" path="res://scenes/character/character.tscn" id="2_e2o7i"]
 [ext_resource type="PackedScene" uid="uid://desqgj8g6ig5p" path="res://scenes/object/lantern.tscn" id="3_xkblx"]
 [ext_resource type="Script" path="res://scripts/music.gd" id="4_srken"]
@@ -109,6 +110,9 @@ position = Vector2(-512, -288)
 
 [node name="Screen4" parent="." instance=ExtResource("1_ob0rg")]
 position = Vector2(0, -288)
+
+[node name="Screen5" parent="." instance=ExtResource("2_cu77i")]
+position = Vector2(512, 0)
 
 [node name="Camera" type="Camera2D" parent="."]
 position = Vector2(256, 144)
