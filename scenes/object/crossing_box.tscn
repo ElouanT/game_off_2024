@@ -9,7 +9,7 @@ size = Vector2(26, 26)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xk62o"]
 size = Vector2(28, 28)
 
-[node name="CrossingBox" type="Node2D"]
+[node name="CrossingBox" type="Node2D" groups=["object"]]
 script = ExtResource("1_rjckk")
 cross = true
 

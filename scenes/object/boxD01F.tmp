@@ -11,6 +11,7 @@ size = Vector2(28, 28)
 
 [node name="Box" type="Node2D" groups=["object"]]
 script = ExtResource("1_2dkbg")
+cross = null
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("1_kx57m")

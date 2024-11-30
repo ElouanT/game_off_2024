@@ -43,7 +43,19 @@ func _process(delta: float) -> void:
 						|| (destination_cell_atlas.x in range(6, 10) && destination_cell_atlas.y <= 5)
 						|| (destination_cell_atlas.x in range(10, 12) && destination_cell_atlas.y <= 1)
 						||	(destination_cell_atlas.x in range(10, 12) && destination_cell_atlas.y == 5)):
-							new_position = tilemap.map_to_local(destination)
+							var can_move = true
+							for object in get_tree().get_nodes_in_group("object"):
+								if tilemap.local_to_map(object.global_position) == destination:
+									if object.name == "Lantern" || object.name == "FixedLantern":
+										can_move = false
+										
+									if object.name == "Box" || object.name == "CrossingBox":
+										if object.mirrored == mirrored:
+											can_move = false
+							
+							if can_move:
+								new_position = tilemap.map_to_local(destination)
+							
 	position = lerp(position, new_position, 8 * delta)
 
 func enter_mirror_zone():
