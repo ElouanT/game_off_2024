@@ -30,7 +30,7 @@ func _process(delta: float) -> void:
 			var character = area.get_parent()
 			var inside_mirror_zone = false
 			for lantern in get_tree().get_nodes_in_group("lantern"):
-				if lantern.is_active && character.position.distance_to(lantern.position) <= 70:
+				if lantern.is_active && character.position.distance_to(lantern.global_position) <= 70:
 					inside_mirror_zone = true
 			
 			if mirrored == inside_mirror_zone:
@@ -40,16 +40,17 @@ func _process(delta: float) -> void:
 						var destination_cell_atlas = tilemap.get_cell_atlas_coords(destination)
 						if (destination_cell_atlas == Vector2i(2, 1)
 						|| destination_cell_atlas == Vector2i(2, 4)
+						|| destination_cell_atlas == Vector2i(0, 1)
+						|| destination_cell_atlas == Vector2i(0, 4)
 						|| destination_cell_atlas == Vector2i(10, 3)
-						|| (destination_cell_atlas.x in range(6, 10) && destination_cell_atlas.y <= 5)
-						|| (destination_cell_atlas.x in range(10, 12) && destination_cell_atlas.y <= 1)
-						||	(destination_cell_atlas.x in range(10, 12) && destination_cell_atlas.y == 5)):
+						|| destination_cell_atlas.x in range(10, 12) && destination_cell_atlas.y == 2
+						|| destination_cell_atlas == Vector2i(11, 0)
+						|| (destination_cell_atlas.x in range(6, 10) && destination_cell_atlas.y <= 5)):
 							var can_move = true
 							for object in get_tree().get_nodes_in_group("object"):
 								if tilemap.local_to_map(object.global_position) == destination:
 									if object.name == "Lantern" || object.name == "FixedLantern":
 										can_move = false
-										
 									if object.name == "Box" || object.name == "CrossingBox":
 										if object.mirrored == mirrored:
 											can_move = false

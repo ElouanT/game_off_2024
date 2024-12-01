@@ -80,11 +80,11 @@ func _ready() -> void:
 	var fixed_lanterns = overworld_tilemap.get_used_cells_by_id(0, Vector2i(10, 1))
 	for cell in fixed_lanterns:
 		var fixed_lantern = load("res://scenes/object/fixed_lantern.tscn").instantiate()
+		add_child(fixed_lantern)
 		overworld_tilemap.set_cell(cell, 0, Vector2i(11, 1))
 		mirror_tilemap.set_cell(cell, 0, Vector2i(11, 1))
 		fixed_lantern.global_position = to_global(overworld_tilemap.map_to_local(cell))
-		add_child(fixed_lantern)
-
+		
 func _process(delta: float) -> void:
 	if (!on_screen):
 		return
@@ -104,7 +104,16 @@ func _process(delta: float) -> void:
 		for box in all_boxes:
 			if plate == box.tilemap.local_to_map(box.position):
 				if all_boxes[box] == "crossing" || pressure_plates[plate] == all_boxes[box]:
-					generators.append(plate)
+					var mirrored = false
+					
+					for lantern in get_tree().get_nodes_in_group("lantern"):
+						if (lantern.is_active):
+							var distance = box.global_position.distance_to(lantern.global_position)
+							if distance < 65:
+								mirrored = true
+					
+					if box.mirrored == mirrored:
+						generators.append(plate)
 	
 	# Diffuse signal
 	for generator in generators:
@@ -158,7 +167,7 @@ func draw_visible_tile(position: Vector2i, current_tile: Vector2i) -> bool:
 			return false
 	
 		if (lantern.is_active):
-			var distance = real_position.distance_to(lantern.position)
+			var distance = real_position.distance_to(lantern.global_position)
 			
 			var overworld_cell_atlas = overworld_tilemap.get_cell_atlas_coords(position)
 			var mirror_cell_atlas = mirror_tilemap.get_cell_atlas_coords(position)

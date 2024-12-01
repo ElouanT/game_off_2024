@@ -1,12 +1,27 @@
-[gd_scene load_steps=12 format=3 uid="uid://dub82bisj1d66"]
+[gd_scene load_steps=27 format=3 uid="uid://dub82bisj1d66"]
 
-[ext_resource type="PackedScene" uid="uid://b4ativfivlori" path="res://scenes/screens/screen_demo.tscn" id="1_ob0rg"]
-[ext_resource type="PackedScene" uid="uid://bv8gub5i1cvfs" path="res://scenes/screens/screen_crossing_the_box.tscn" id="2_cu77i"]
+[ext_resource type="PackedScene" uid="uid://b3kguhj1rhxgq" path="res://scenes/screens/initiation_mirror_power.tscn" id="1_7bmyc"]
+[ext_resource type="PackedScene" uid="uid://bi1o3fy0253o3" path="res://scenes/screens/awakening.tscn" id="1_48gpq"]
+[ext_resource type="PackedScene" uid="uid://dr113dy0onxje" path="res://scenes/screens/lantern_obtained.tscn" id="1_hl0kd"]
 [ext_resource type="PackedScene" uid="uid://xdp5fq0gat6l" path="res://scenes/character/character.tscn" id="2_e2o7i"]
+[ext_resource type="PackedScene" uid="uid://b4t8hvy83ca4w" path="res://scenes/screens/initiation_mirror.tscn" id="2_rb3vi"]
+[ext_resource type="PackedScene" uid="uid://dpvd0srxgjjgg" path="res://scenes/screens/transition_1.tscn" id="3_g4r37"]
+[ext_resource type="PackedScene" uid="uid://c8lwudgdw6agl" path="res://scenes/screens/initiation_power.tscn" id="3_jdn0u"]
 [ext_resource type="PackedScene" uid="uid://desqgj8g6ig5p" path="res://scenes/object/lantern.tscn" id="3_xkblx"]
+[ext_resource type="PackedScene" uid="uid://b2nxbxv3kvqee" path="res://scenes/screens/shortcut_1.tscn" id="4_ddalo"]
 [ext_resource type="Script" path="res://scripts/music.gd" id="4_srken"]
 [ext_resource type="AudioStream" uid="uid://t202mjaflriy" path="res://assets/audio/music/overworld.wav" id="5_ngrtc"]
 [ext_resource type="AudioStream" uid="uid://v376fll7aa23" path="res://assets/audio/music/mirror.wav" id="6_2yay7"]
+[ext_resource type="PackedScene" uid="uid://bxhpx2raf8flw" path="res://scenes/screens/end.tscn" id="6_gtbq8"]
+[ext_resource type="PackedScene" uid="uid://bv8gub5i1cvfs" path="res://scenes/screens/crossing_lake.tscn" id="6_lys68"]
+[ext_resource type="PackedScene" uid="uid://cpij76fucog8l" path="res://scenes/screens/mirrored_boxes.tscn" id="10_n2sld"]
+[ext_resource type="PackedScene" uid="uid://bfljf4m40t7g6" path="res://scenes/screens/transition_3.tscn" id="11_r67d6"]
+[ext_resource type="PackedScene" uid="uid://bmcwx4pmy513t" path="res://scenes/screens/transition_2.tscn" id="12_c5qbw"]
+[ext_resource type="PackedScene" uid="uid://bckm7pwipmlhr" path="res://scenes/screens/transition_4.tscn" id="13_kx4hu"]
+[ext_resource type="PackedScene" uid="uid://bxanag6yv3mrk" path="res://scenes/screens/transition_5.tscn" id="14_8hwal"]
+[ext_resource type="PackedScene" uid="uid://6x5jh2sls6v3" path="res://scenes/screens/crossing_box.tscn" id="15_24fob"]
+[ext_resource type="PackedScene" uid="uid://xnhxfp5iihkm" path="res://scenes/screens/initiation_crossing_box.tscn" id="16_oyj7f"]
+[ext_resource type="PackedScene" uid="uid://gryjy3yk6m55" path="res://scenes/screens/less_box_than_plates.tscn" id="17_mem5r"]
 
 [sub_resource type="Animation" id="Animation_o6pj5"]
 length = 0.001
@@ -100,29 +115,67 @@ _data = {
 
 [node name="Game" type="Node2D"]
 
-[node name="Screen" parent="." instance=ExtResource("1_ob0rg")]
+[node name="Scenes" type="Node2D" parent="."]
 
-[node name="Screen2" parent="." instance=ExtResource("1_ob0rg")]
-position = Vector2(-512, 0)
+[node name="Awakening" parent="Scenes" instance=ExtResource("1_48gpq")]
 
-[node name="Screen3" parent="." instance=ExtResource("1_ob0rg")]
-position = Vector2(-512, -288)
-
-[node name="Screen4" parent="." instance=ExtResource("1_ob0rg")]
+[node name="InitiationMirror" parent="Scenes" instance=ExtResource("2_rb3vi")]
 position = Vector2(0, -288)
 
-[node name="Screen5" parent="." instance=ExtResource("2_cu77i")]
-position = Vector2(512, 0)
+[node name="Transition1" parent="Scenes" instance=ExtResource("3_g4r37")]
+position = Vector2(512, -288)
+
+[node name="Shortcut1" parent="Scenes" instance=ExtResource("4_ddalo")]
+position = Vector2(512, -576)
+
+[node name="InitiationPower" parent="Scenes" instance=ExtResource("3_jdn0u")]
+position = Vector2(0, -576)
+
+[node name="MirrorPower" parent="Scenes" instance=ExtResource("1_7bmyc")]
+position = Vector2(0, -864)
+
+[node name="LanternObtained" parent="Scenes" instance=ExtResource("1_hl0kd")]
+position = Vector2(0, -1152)
+
+[node name="CrossingLake" parent="Scenes" instance=ExtResource("6_lys68")]
+position = Vector2(-512, -864)
+
+[node name="CrossingBox" parent="Scenes" instance=ExtResource("15_24fob")]
+position = Vector2(-512, -576)
+
+[node name="End" parent="Scenes" instance=ExtResource("6_gtbq8")]
+position = Vector2(-1, -1727)
+
+[node name="MirroredBoxes" parent="Scenes" instance=ExtResource("10_n2sld")]
+position = Vector2(512, -864)
+
+[node name="Transition3" parent="Scenes" instance=ExtResource("11_r67d6")]
+position = Vector2(1024, -864)
+
+[node name="Transition2" parent="Scenes" instance=ExtResource("12_c5qbw")]
+position = Vector2(1024, -576)
+
+[node name="Transition4" parent="Scenes" instance=ExtResource("13_kx4hu")]
+position = Vector2(512, -1152)
+
+[node name="Transition5" parent="Scenes" instance=ExtResource("14_8hwal")]
+position = Vector2(0, -1440)
+
+[node name="InitiationCrossingBox" parent="Scenes" instance=ExtResource("16_oyj7f")]
+position = Vector2(-512, -1152)
+
+[node name="Less box than plates" parent="Scenes" instance=ExtResource("17_mem5r")]
+position = Vector2(-512, -1440)
 
 [node name="Camera" type="Camera2D" parent="."]
 position = Vector2(256, 144)
 zoom = Vector2(2.25, 2.25)
 
 [node name="Character" parent="." instance=ExtResource("2_e2o7i")]
-position = Vector2(256, 256)
+position = Vector2(256, 180)
 
 [node name="Lantern" parent="." instance=ExtResource("3_xkblx")]
-position = Vector2(256, 145)
+position = Vector2(274, 103)
 
 [node name="Music" type="Node2D" parent="."]
 script = ExtResource("4_srken")

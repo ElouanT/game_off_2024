@@ -2,6 +2,14 @@ extends Node2D
 
 var is_active: bool = false
 
+func _ready() -> void:
+	# Hack to resolve a bug in witch lantern would be on for one frame during the first "on" animation
+	enable()
+	disable()
+	$Sounds/On.stop()
+	$Sounds/Off.stop()
+	$Control/BackBufferCopy/Mask.visible = false
+
 func flip():
 	if (is_active):
 		disable()

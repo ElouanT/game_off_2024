@@ -48,8 +48,8 @@ shader_parameter/thickness = null
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_8nixf"]
 shader = ExtResource("3_53nmy")
-shader_parameter/radius = 0.0
-shader_parameter/size = 0.0
+shader_parameter/radius = 0.35
+shader_parameter/size = 0.5
 shader_parameter/force = 0.05
 shader_parameter/thickness = 0.2
 
@@ -172,7 +172,7 @@ bus = &"SFX"
 visible = false
 z_index = -1
 position = Vector2(-3.55271e-15, 0.250002)
-scale = Vector2(1e-05, 1e-05)
+scale = Vector2(0.804, 0.804)
 texture = ExtResource("6_mn1hh")
 
 [connection signal="area_entered" from="MirrorZone" to="." method="_on_mirror_zone_area_entered"]
