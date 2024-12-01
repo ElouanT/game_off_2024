@@ -175,7 +175,7 @@ zoom = Vector2(2.25, 2.25)
 position = Vector2(256, 180)
 
 [node name="Lantern" parent="." instance=ExtResource("3_xkblx")]
-position = Vector2(274, 103)
+position = Vector2(256, -976)
 
 [node name="Music" type="Node2D" parent="."]
 script = ExtResource("4_srken")
