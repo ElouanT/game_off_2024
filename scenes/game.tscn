@@ -184,10 +184,12 @@ loop_end = 74.28
 
 [node name="OverworldStream" type="AudioStreamPlayer2D" parent="Music"]
 stream = ExtResource("5_ngrtc")
+panning_strength = 0.0
 bus = &"Music"
 
 [node name="MirrorStream" type="AudioStreamPlayer2D" parent="Music"]
 stream = ExtResource("6_2yay7")
+panning_strength = 0.0
 bus = &"Music"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Music"]
